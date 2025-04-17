@@ -57,15 +57,15 @@ window.vote = async function (choice) {
     const q = questions[currentIndex];
   
     // fallback in case votes are missing
-    q.votesA = q.votesA ?? 0;
-    q.votesB = q.votesB ?? 0;
+    q.votesa = q.votesa ?? 0;
+    q.votesb = q.votesb ?? 0;
   
-    if (choice === 'A') q.votesA++;
+    if (choice === 'A') q.votesa++;
     else q.votesB++;
   
     const updatePayload = {
-      votesA: q.votesA,
-      votesB: q.votesB
+      votesa: q.votesa,
+      votesb: q.votesb
     };
   
     const { error } = await supabase
@@ -85,8 +85,8 @@ window.vote = async function (choice) {
 
 function showResult(q) {
     // fallback defaults to 0 if missing
-    const votesA = q.votesA ?? 0;
-    const votesB = q.votesB ?? 0;
+    const votesA = q.votesa ?? 0;
+    const votesB = q.votesb ?? 0;
     const total = votesA + votesB || 1; // prevent divide by 0
   
     const percentA = Math.round((votesA / total) * 100);
