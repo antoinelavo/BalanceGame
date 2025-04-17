@@ -1,22 +1,17 @@
-// js/category.js
-import { supabase } from './supabase.js';
-
+import { supabase } from '/supabase.js';
 
 let questions = [];
 let currentIndex = 0;
 let currentCategory = '';
-
 const container = document.getElementById('game-container');
 
-// Extract category name from URL path (e.g. /category/love)
+// Get category slug from URL (e.g., /category/love → "love")
 const pathSegments = window.location.pathname.split('/');
-currentCategory = pathSegments[pathSegments.length - 1];
+currentCategory = decodeURIComponent(pathSegments[pathSegments.length - 1]);
 
+document.getElementById("category-title").textContent = `밸런스 게임: ${currentCategory}`;
 
-document.getElementById("category-title").textContent = `밸런스 게임: ${decodeURIComponent(currentCategory)}`;
-
-loadQuestions();
-
+// Load questions from Supabase
 async function loadQuestions() {
   const { data, error } = await supabase
     .from('questions')
@@ -24,21 +19,17 @@ async function loadQuestions() {
     .eq('category', currentCategory)
     .order('id');
 
-  if (error) {
-    container.innerHTML = `<p>문제를 불러오는 중 오류가 발생했습니다.</p>`;
+  if (error || !data || data.length === 0) {
+    container.innerHTML = `<p>질문을 불러오는 데 실패했거나 존재하지 않습니다.</p>`;
     console.error(error);
     return;
   }
 
   questions = data;
-  if (questions.length === 0) {
-    container.innerHTML = `<p>해당 카테고리에 질문이 없습니다.</p>`;
-    return;
-  }
-
   renderQuestion();
 }
 
+// Render the current question
 function renderQuestion() {
   const q = questions[currentIndex];
 
@@ -46,69 +37,68 @@ function renderQuestion() {
     <div class="question-box">
       <p class="question-text">${q.question}</p>
       <div class="option-buttons">
-        <button onclick="window.vote('A')">${q.optiona}</button>
-        <button onclick="window.vote('B')">${q.optionb}</button>
+        <button id="vote-a">${q.optiona}</button>
+        <button id="vote-b">${q.optionb}</button>
       </div>
     </div>
   `;
+
+  document.getElementById('vote-a').addEventListener('click', () => vote('A'));
+  document.getElementById('vote-b').addEventListener('click', () => vote('B'));
 }
 
-window.vote = async function (choice) {
-    const q = questions[currentIndex];
-  
-    // fallback in case votes are missing
-    q.votesa = q.votesa ?? 0;
-    q.votesb = q.votesb ?? 0;
-  
-    if (choice === 'A') q.votesa++;
-    else q.votesB++;
-  
-    const updatePayload = {
-      votesa: q.votesa,
-      votesb: q.votesb
-    };
-  
-    const { error } = await supabase
-      .from('questions')
-      .update(updatePayload)
-      .eq('id', q.id);
-  
-    if (error) {
-      console.error("Failed to update vote:", error.message);
-      alert("투표 저장에 실패했습니다.");
-      return;
-    }
-  
-    showResult(q);
-  };
-  
+// Handle voting
+async function vote(choice) {
+  const q = questions[currentIndex];
 
-  function showResult(q) {
-    // Fallback to 0 if missing
-    const votesA = q.votesa ?? 0;
-    const votesB = q.votesb ?? 0;
-    const total = votesA + votesB || 1;
-  
-    // Safely access option labels
-    const optionA = q.optiona ?? q.optionA ?? '옵션 A';
-    const optionB = q.optionb ?? q.optionB ?? '옵션 B';
-  
-    const percentA = Math.round((votesA / total) * 100);
-    const percentB = 100 - percentA;
-  
-    container.innerHTML = `
-      <div class="result-box">
-        <p class="question-text">${q.question}</p>
-        <div class="result-option">
-          ${optionA} - ${percentA}%
-        </div>
-        <div class="result-option">
-          ${optionB} - ${percentB}%
-        </div>
-        <button onclick="next()">다음 질문</button>
-      </div>
-    `;
+  // Fallbacks to prevent NaN or null
+  q.votesa = q.votesa ?? 0;
+  q.votesb = q.votesb ?? 0;
+
+  if (choice === 'A') q.votesa++;
+  else q.votesb++;
+
+  const { error } = await supabase
+    .from('questions')
+    .update({ votesa: q.votesa, votesb: q.votesb })
+    .eq('id', q.id);
+
+  if (error) {
+    alert("투표 저장에 실패했습니다.");
+    console.error("Vote update failed:", error);
+    return;
   }
-  
 
-  
+  showResult(q);
+}
+
+// Show result after voting
+function showResult(q) {
+  const votesA = q.votesa ?? 0;
+  const votesB = q.votesb ?? 0;
+  const total = votesA + votesB || 1;
+
+  const percentA = Math.round((votesA / total) * 100);
+  const percentB = 100 - percentA;
+
+  container.innerHTML = `
+    <div class="result-box">
+      <p class="question-text">${q.question}</p>
+      <div class="result-option">${q.optiona ?? '옵션 A'} - ${percentA}%</div>
+      <div class="result-option">${q.optionb ?? '옵션 B'} - ${percentB}%</div>
+      <button id="next-btn">다음 질문</button>
+    </div>
+  `;
+
+  document.getElementById('next-btn').addEventListener('click', () => {
+    currentIndex++;
+    if (currentIndex < questions.length) {
+      renderQuestion();
+    } else {
+      container.innerHTML = `<p>모든 질문을 완료했습니다! 🎉</p>`;
+    }
+  });
+}
+
+// Start the game
+loadQuestions();
