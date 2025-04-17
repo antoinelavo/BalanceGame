@@ -1,3 +1,10 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background: white;
+  }
+  
 body {
   margin: 0;
   padding: 0;
@@ -133,6 +140,7 @@ header {
   
   .right-option {
     background: linear-gradient(135deg, #3498db, #2bcbba); /* Blue */
+    border-bottom: 4px solid white;
   }
   
   .option-box:hover {
@@ -143,8 +151,9 @@ header {
 .split-wrapper {
   display: grid;
   grid-template-rows: 1fr auto 1fr;
-  height: calc(100vh - 90px); /* Leaves space for footer */
+  height: calc(100vh - 50px); /* Previously: 100vh - 90px */
 }
+
 
 .option-box {
   display: flex;
