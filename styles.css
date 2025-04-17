@@ -1,56 +1,57 @@
 body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Arial', sans-serif;
-    background: #f9f9f9;
-    color: #222;
-    text-align: center;
-  }
-  
-  header {
-    padding: 2rem 1rem 1rem;
-  }
-  
-  .category-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: 1rem;
-    padding: 2rem;
-    max-width: 800px;
-    margin: 0 auto;
-  }
-  
-  .category-card {
-    display: block;
-    background: white;
-    border-radius: 12px;
-    padding: 1.5rem;
-    text-decoration: none;
-    color: black;
-    font-size: 1.2rem;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    transition: transform 0.2s ease;
-  }
-  
-  .category-card:hover {
-    transform: translateY(-3px);
-    background: #eee;
-  }
-  
-  .top-header {
+  margin: 0;
+  padding: 0;
+  font-family: 'Arial', sans-serif;
+  background: #f9f9f9;
+  color: #222;
+  text-align: center;
+}
+
+header {
+  padding: 2rem 1rem 1rem;
+}
+
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 1rem;
+  padding: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.category-card {
+  display: block;
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-decoration: none;
+  color: black;
+  font-size: 1.2rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  transition: transform 0.2s ease;
+}
+
+.category-card:hover {
+  transform: translateY(-3px);
+  background: #eee;
+}
+
+.top-header {
     background: white;
     padding: 1rem 1.5rem;
     border-bottom: 1px solid #eee;
   }
   
-  .header-content {
+.header-content {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: center;
     gap: 1rem;
-  }
+}
   
-  .back-button {
+.back-button {
     text-decoration: none;
     font-size: 1rem;
     color: #444;
@@ -59,10 +60,50 @@ body {
     padding: 0.4rem 0.8rem;
     border-radius: 6px;
     transition: background 0.2s ease;
+}
+  
+.back-button:hover {
+    background: #ddd;
+}
+
+.category-grid-footer {
+    background: white;
+    padding: 1rem;
+    border-top: 1px solid #eee;
+    box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.05);
   }
   
-  .back-button:hover {
-    background: #ddd;
-    color: #67b0ff;
+  .category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    gap: 0.5rem;
   }
+  
+  .category-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0.6rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    text-decoration: none;
+    background: #f9f9f9;
+    color: #333;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+  }
+  
+  .category-button:hover {
+    background: #eee;
+    color: #000;
+  }
+  
+  .category-button.active {
+    background: #ff6781;
+    color: white;
+    border-color: #ff6781;
+  }
+  
   
