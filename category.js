@@ -83,11 +83,15 @@ window.vote = async function (choice) {
   };
   
 
-function showResult(q) {
-    // fallback defaults to 0 if missing
+  function showResult(q) {
+    // Fallback to 0 if missing
     const votesA = q.votesa ?? 0;
     const votesB = q.votesb ?? 0;
-    const total = votesA + votesB || 1; // prevent divide by 0
+    const total = votesA + votesB || 1;
+  
+    // Safely access option labels
+    const optionA = q.optiona ?? q.optionA ?? '옵션 A';
+    const optionB = q.optionb ?? q.optionB ?? '옵션 B';
   
     const percentA = Math.round((votesA / total) * 100);
     const percentB = 100 - percentA;
@@ -96,13 +100,15 @@ function showResult(q) {
       <div class="result-box">
         <p class="question-text">${q.question}</p>
         <div class="result-option">
-          ${q.optionA} - ${percentA}%
+          ${optionA} - ${percentA}%
         </div>
         <div class="result-option">
-          ${q.optionB} - ${percentB}%
+          ${optionB} - ${percentB}%
         </div>
         <button onclick="next()">다음 질문</button>
       </div>
     `;
   }
+  
+
   
