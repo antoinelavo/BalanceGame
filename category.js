@@ -31,21 +31,19 @@ async function loadQuestions() {
 
 // Render the current question
 function renderQuestion() {
-  const q = questions[currentIndex];
-
-  container.innerHTML = `
-    <div class="question-box">
-      <p class="question-text">${q.question}</p>
-      <div class="option-buttons">
-        <button id="vote-a">${q.optiona}</button>
-        <button id="vote-b">${q.optionb}</button>
+    const q = questions[currentIndex];
+  
+    container.innerHTML = `
+      <div class="fullscreen-question">
+        <div class="option-box left-option" id="vote-a">${q.optiona}</div>
+        <div class="option-box right-option" id="vote-b">${q.optionb}</div>
       </div>
-    </div>
-  `;
-
-  document.getElementById('vote-a').addEventListener('click', () => vote('A'));
-  document.getElementById('vote-b').addEventListener('click', () => vote('B'));
-}
+    `;
+  
+    document.getElementById('vote-a').addEventListener('click', () => vote('A'));
+    document.getElementById('vote-b').addEventListener('click', () => vote('B'));
+  }
+  
 
 // Handle voting
 async function vote(choice) {
