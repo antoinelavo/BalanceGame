@@ -110,22 +110,25 @@ function renderCategoryFooter() {
       { name: "idol", emoji: "🎤", label: "아이돌" },
       { name: "animal", emoji: "🐶", label: "동물" },
       { name: "sports", emoji: "⚽", label: "스포츠" },
-      { name: "19", emoji: "🔞", label: "19금" },
-      // Add more categories here in the future
+      { name: "19", emoji: "🔞", label: "19금" }
     ];
   
     const footer = document.getElementById("category-footer");
   
+    // Filter out the current category
+    const filtered = categories.filter(cat => cat.name !== currentCategory);
+  
     footer.innerHTML = `
       <div class="category-grid">
-        ${categories.map(cat => `
-          <a href="/category/${cat.name}" class="category-button ${cat.name === currentCategory ? 'active' : ''}">
+        ${filtered.map(cat => `
+          <a href="/category/${cat.name}" class="category-button">
             ${cat.emoji} <span>${cat.label}</span>
           </a>
         `).join('')}
       </div>
     `;
-}
+  }
+  
   
   
 renderCategoryFooter();
