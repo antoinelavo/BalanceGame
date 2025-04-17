@@ -34,7 +34,7 @@ function renderQuestion() {
     const q = questions[currentIndex];
   
     container.innerHTML = `
-      <div class="fullscreen-question">
+      <div class="split-wrapper">
         <div class="option-box left-option" id="vote-a">${q.optiona}</div>
         <div class="option-box right-option" id="vote-b">${q.optionb}</div>
       </div>
@@ -72,31 +72,37 @@ async function vote(choice) {
 
 // Show result after voting
 function showResult(q) {
-  const votesA = q.votesa ?? 0;
-  const votesB = q.votesb ?? 0;
-  const total = votesA + votesB || 1;
-
-  const percentA = Math.round((votesA / total) * 100);
-  const percentB = 100 - percentA;
-
-  container.innerHTML = `
-    <div class="result-box">
-      <p class="question-text">${q.question}</p>
-      <div class="result-option">${q.optiona ?? '옵션 A'} - ${percentA}%</div>
-      <div class="result-option">${q.optionb ?? '옵션 B'} - ${percentB}%</div>
-      <button id="next-btn">다음 질문</button>
-    </div>
-  `;
-
-  document.getElementById('next-btn').addEventListener('click', () => {
-    currentIndex++;
-    if (currentIndex < questions.length) {
-      renderQuestion();
-    } else {
-      container.innerHTML = `<p>모든 질문을 완료했습니다! 🎉</p>`;
-    }
-  });
-}
+    const votesA = q.votesa ?? 0;
+    const votesB = q.votesb ?? 0;
+    const total = votesA + votesB || 1;
+  
+    const percentA = Math.round((votesA / total) * 100);
+    const percentB = 100 - percentA;
+  
+    container.innerHTML = `
+      <div class="split-wrapper">
+        <div class="option-box left-option">
+          ${q.optiona} <br /><span class="percentage">${percentA}%</span>
+        </div>
+  
+        <button class="next-button" id="next-btn">다음 질문</button>
+  
+        <div class="option-box right-option">
+          ${q.optionb} <br /><span class="percentage">${percentB}%</span>
+        </div>
+      </div>
+    `;
+  
+    document.getElementById('next-btn').addEventListener('click', () => {
+      currentIndex++;
+      if (currentIndex < questions.length) {
+        renderQuestion();
+      } else {
+        container.innerHTML = `<p>모든 질문을 완료했습니다! 🎉</p>`;
+      }
+    });
+  }
+  
 
 // Start the game
 loadQuestions();
