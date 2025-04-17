@@ -37,3 +37,32 @@ body {
     background: #eee;
   }
   
+  .top-header {
+    background: white;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .header-content {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 1rem;
+  }
+  
+  .back-button {
+    text-decoration: none;
+    font-size: 1rem;
+    color: #444;
+    font-weight: bold;
+    background: #f0f0f0;
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    transition: background 0.2s ease;
+  }
+  
+  .back-button:hover {
+    background: #ddd;
+    color: #67b0ff;
+  }
+  
