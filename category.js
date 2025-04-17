@@ -46,8 +46,8 @@ function renderQuestion() {
     <div class="question-box">
       <p class="question-text">${q.question}</p>
       <div class="option-buttons">
-        <button onclick="window.vote('A')">${q.optionA}</button>
-        <button onclick="window.vote('B')">${q.optionB}</button>
+        <button onclick="window.vote('A')">${q.optiona}</button>
+        <button onclick="window.vote('B')">${q.optionb}</button>
       </div>
     </div>
   `;
@@ -78,10 +78,10 @@ function showResult(q) {
     <div class="result-box">
       <p class="question-text">${q.question}</p>
       <div class="result-option">
-        ${q.optionA} - ${percentA}%
+        ${q.optiona} - ${percentA}%
       </div>
       <div class="result-option">
-        ${q.optionB} - ${percentB}%
+        ${q.optionb} - ${percentB}%
       </div>
       <button onclick="next()">다음 질문</button>
     </div>
