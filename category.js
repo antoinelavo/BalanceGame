@@ -54,45 +54,55 @@ function renderQuestion() {
 }
 
 window.vote = async function (choice) {
-  const q = questions[currentIndex];
-
-  // Optimistic update
-  if (choice === 'A') q.votesA++;
-  else q.votesB++;
-
-  // Update Supabase
-  await supabase
-    .from('questions')
-    .update(choice === 'A' ? { votesA: q.votesA } : { votesB: q.votesB })
-    .eq('id', q.id);
-
-  showResult(q);
-};
+    const q = questions[currentIndex];
+  
+    // fallback in case votes are missing
+    q.votesA = q.votesA ?? 0;
+    q.votesB = q.votesB ?? 0;
+  
+    if (choice === 'A') q.votesA++;
+    else q.votesB++;
+  
+    const updatePayload = {
+      votesA: q.votesA,
+      votesB: q.votesB
+    };
+  
+    const { error } = await supabase
+      .from('questions')
+      .update(updatePayload)
+      .eq('id', q.id);
+  
+    if (error) {
+      console.error("Failed to update vote:", error.message);
+      alert("투표 저장에 실패했습니다.");
+      return;
+    }
+  
+    showResult(q);
+  };
+  
 
 function showResult(q) {
-  const total = q.votesA + q.votesB;
-  const percentA = Math.round((q.votesA / total) * 100);
-  const percentB = 100 - percentA;
-
-  container.innerHTML = `
-    <div class="result-box">
-      <p class="question-text">${q.question}</p>
-      <div class="result-option">
-        ${q.optiona} - ${percentA}%
+    // fallback defaults to 0 if missing
+    const votesA = q.votesA ?? 0;
+    const votesB = q.votesB ?? 0;
+    const total = votesA + votesB || 1; // prevent divide by 0
+  
+    const percentA = Math.round((votesA / total) * 100);
+    const percentB = 100 - percentA;
+  
+    container.innerHTML = `
+      <div class="result-box">
+        <p class="question-text">${q.question}</p>
+        <div class="result-option">
+          ${q.optionA} - ${percentA}%
+        </div>
+        <div class="result-option">
+          ${q.optionB} - ${percentB}%
+        </div>
+        <button onclick="next()">다음 질문</button>
       </div>
-      <div class="result-option">
-        ${q.optionb} - ${percentB}%
-      </div>
-      <button onclick="next()">다음 질문</button>
-    </div>
-  `;
-}
-
-window.next = function () {
-  currentIndex++;
-  if (currentIndex < questions.length) {
-    renderQuestion();
-  } else {
-    container.innerHTML = `<p>모든 질문을 완료했습니다! 🎉</p>`;
+    `;
   }
-};
+  
