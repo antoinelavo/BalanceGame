@@ -2,12 +2,11 @@ import { supabase } from '/supabase.js';
 
 let questions = [];
 let currentIndex = 0;
-let currentCategory = '';
 const container = document.getElementById('game-container');
 
-// Get category slug from URL (e.g., /category/love → "love")
-const pathSegments = window.location.pathname.split('/');
-currentCategory = decodeURIComponent(pathSegments[pathSegments.length - 1]);
+// TEMP FOR LOCAL TESTING:
+const currentCategory = new URLSearchParams(window.location.search).get('name') || 'love';
+
 
 document.getElementById("category-title").textContent = `밸런스 게임: ${currentCategory}`;
 
@@ -80,18 +79,17 @@ function showResult(q) {
     const percentB = 100 - percentA;
   
     container.innerHTML = `
-      <div class="split-wrapper">
-        <div class="option-box left-option">
-          ${q.optiona} <br /><span class="percentage">${percentA}%</span>
-        </div>
-  
-        <button class="next-button" id="next-btn">다음 질문</button>
-  
-        <div class="option-box right-option">
-          ${q.optionb} <br /><span class="percentage">${percentB}%</span>
-        </div>
+    <div class="split-wrapper with-button">
+      <div class="option-box left-option">
+        ${q.optiona} <br /><span class="percentage">${percentA}%</span>
       </div>
-    `;
+      <div class="option-box right-option">
+        ${q.optionb} <br /><span class="percentage">${percentB}%</span>
+      </div>
+      <button class="next-button-overlay" id="next-btn">다음 질문</button>
+    </div>
+  `;
+  
   
     document.getElementById('next-btn').addEventListener('click', () => {
       currentIndex++;
