@@ -65,9 +65,9 @@ html, body {
 
 .category-card.love { background: linear-gradient(135deg, #ff6b81, #ffb199); }
 .category-card.nonsense { background: linear-gradient(135deg, #6c5ce7, #a29bfe); }
-.category-card.idol { background: linear-gradient(135deg, #ff9ff3, #f368e0); }
-.category-card.animal { background: linear-gradient(135deg, #00b894, #55efc4); }
-.category-card.sports { background: linear-gradient(135deg, #00cec9, #81ecec); }
+.category-card.situation { background: linear-gradient(135deg, #ff9ff3, #f368e0); }
+.category-card.food { background: linear-gradient(135deg, #00b894, #55efc4); }
+.category-card.money { background: linear-gradient(135deg, #00cec9, #81ecec); }
 .category-card.adult { background: linear-gradient(135deg, #d63031, #ff7675); }
 
 footer {
