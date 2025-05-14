@@ -100,33 +100,3 @@ function showResult(q) {
 // Start the game
 loadQuestions();
 
-function renderCategoryFooter() {
-    const categories = [
-      { name: "love", emoji: "💖", label: "연애" },
-      { name: "nonsense", emoji: "🧠", label: "넌센스" },
-      { name: "idol", emoji: "🎤", label: "아이돌" },
-      { name: "animal", emoji: "🐶", label: "동물" },
-      { name: "sports", emoji: "⚽", label: "스포츠" },
-      { name: "19", emoji: "🔞", label: "19금" }
-    ];
-  
-    const footer = document.getElementById("category-footer");
-  
-    // Filter out the current category
-    const filtered = categories.filter(cat => cat.name !== currentCategory);
-  
-    footer.innerHTML = `
-      <div class="category-grid">
-        ${filtered.map(cat => `
-          <a href="/category/${cat.name}" class="category-button">
-            ${cat.emoji} <span>${cat.label}</span>
-          </a>
-        `).join('')}
-      </div>
-    `;
-  }
-  
-  
-  
-renderCategoryFooter();
-  
