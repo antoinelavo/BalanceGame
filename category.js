@@ -3,12 +3,7 @@ import { supabase } from '/supabase.js';
 let questions = [];
 let currentIndex = 0;
 const container = document.getElementById('game-container');
-
-// TEMP FOR LOCAL TESTING:
-const currentCategory = new URLSearchParams(window.location.search).get('name') || 'love';
-
-
-document.getElementById("category-title").textContent = `밸런스 게임: ${currentCategory}`;
+const currentCategory = container.dataset.category || 'default';
 
 // Load questions from Supabase
 async function loadQuestions() {
@@ -71,14 +66,14 @@ async function vote(choice) {
 
 // Show result after voting
 function showResult(q) {
-    const votesA = q.votesa ?? 0;
-    const votesB = q.votesb ?? 0;
-    const total = votesA + votesB || 1;
-  
-    const percentA = Math.round((votesA / total) * 100);
-    const percentB = 100 - percentA;
-  
-    container.innerHTML = `
+  const votesA = q.votesa ?? 0;
+  const votesB = q.votesb ?? 0;
+  const total = votesA + votesB || 1;
+
+  const percentA = Math.round((votesA / total) * 100);
+  const percentB = 100 - percentA;
+
+  container.innerHTML = `
     <div class="split-wrapper with-button">
       <div class="option-box left-option">
         ${q.optiona} <br /><span class="percentage">${percentA}%</span>
@@ -89,17 +84,17 @@ function showResult(q) {
       <button class="next-button-overlay" id="next-btn">다음 질문</button>
     </div>
   `;
-  
-  
-    document.getElementById('next-btn').addEventListener('click', () => {
-      currentIndex++;
-      if (currentIndex < questions.length) {
-        renderQuestion();
-      } else {
-        container.innerHTML = `<p>모든 질문을 완료했습니다! 🎉</p>`;
-      }
-    });
-  }
+
+  document.getElementById('next-btn').addEventListener('click', () => {
+    currentIndex++;
+    if (currentIndex < questions.length) {
+      renderQuestion();
+    } else {
+      window.location.href = "/";  // ✅ Redirect to homepage
+    }
+  });
+}
+
   
 
 // Start the game
