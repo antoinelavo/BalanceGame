@@ -3,7 +3,8 @@ import { supabase } from '/supabase.js';
 let questions = [];
 let currentIndex = 0;
 const container = document.getElementById('game-container');
-const currentCategory = container.dataset.category || 'default';
+const pathParts = window.location.pathname.split('/');
+const currentCategory = pathParts[pathParts.length - 1] || 'default';
 
 // Load questions from Supabase
 async function loadQuestions() {
