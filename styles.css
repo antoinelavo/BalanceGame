@@ -69,6 +69,8 @@ html, body {
 .category-card.food { background: linear-gradient(135deg, #00b894, #55efc4); }
 .category-card.money { background: linear-gradient(135deg, #00cec9, #81ecec); }
 .category-card.adult { background: linear-gradient(135deg, #d63031, #ff7675); }
+.category-card.football { background: linear-gradient(135deg, rgb(88, 243, 53), #546c51); }
+
 
 footer {
   text-align: center;
